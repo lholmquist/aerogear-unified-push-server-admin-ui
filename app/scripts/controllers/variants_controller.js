@@ -64,7 +64,8 @@ App.VariantsIndexController = Ember.ObjectController.extend({
         var that = controller,
             thee = this,
             applicationData,
-            variantType = $( "input:checked" ).val(),
+            apnsType,
+            variantType = $( "input[name='platform']:checked" ).val(),
             ajaxOptions = {
                 url: App.baseURL + "rest/applications/" + controller.get( "pushApplicationID" ) + "/" + variantType,
                 type: "POST",
@@ -87,6 +88,12 @@ App.VariantsIndexController = Ember.ObjectController.extend({
             //run validation
             if( model.validateProperty( "passphrase" ) && model.validateProperty( "certificate" ) )
             {
+                apnsType = $( "input[name='otherplatform']:checked" ).val();
+
+                if( apnsType === "safari" ) {
+                    ajaxOptions.url = ajaxOptions.url.replace( "iOS", "safari" );
+                }
+
                 ajaxOptions.success = function() {
                     thee.formReset( that );
                     that.transitionToRoute( "variants", that.get( "model" ) );
@@ -102,7 +109,12 @@ App.VariantsIndexController = Ember.ObjectController.extend({
                     }
                 };
                 ajaxOptions.beforeSubmit = function( formData ) {
-                    formData.push( { name: "production", value: that.get( "production" ) ? true : false } );
+                    // DRY THIS OUT
+                    if( apnsType === 'iOS' ) {
+                        formData.push( { name: "production", value: that.get( "production" ) ? true : false } );
+                    } else {
+                        formData.push( { name: "production", value: true } );
+                    }
                 };
                 $( "form" ).ajaxSubmit( ajaxOptions );
             } else {

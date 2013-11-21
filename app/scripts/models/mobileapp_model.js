@@ -36,11 +36,14 @@ App.MobileApplication = Ember.Object.extend( Ember.Validations, {
     totalSimplePushVariants: function() {
         return this.simplePushVariants ? this.simplePushVariants.get( "content" ) : [];
     }.property(),
+    totalSafariVariants: function() {
+        return this.safariVariants ? this.safariVariants.get( "content" ) : [];
+    }.property(),
     totalVariants: function() {
-        return this.get( "totalAndroidVariants" ).length + this.get( "totaliOSVariants" ).length + this.get( "totalSimplePushVariants" ).length;
+        return this.get( "totalAndroidVariants" ).length + this.get( "totaliOSVariants" ).length + this.get( "totalSimplePushVariants" ).length + this.get( "totalSafariVariants" ).length;
     }.property(),
     variantList: function() {
-        return this.get( "totalAndroidVariants" ).concat( this.get( "totaliOSVariants" ) ).concat( this.get( "totalSimplePushVariants" ) );
+        return this.get( "totalAndroidVariants" ).concat( this.get( "totaliOSVariants" ) ).concat( this.get( "totalSimplePushVariants" ) ).concat( this.get( "totalSafariVariants" ) );
     }.property()
 });
 

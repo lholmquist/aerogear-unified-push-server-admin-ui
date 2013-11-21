@@ -30,6 +30,9 @@ App.MobileVariantInstance = Ember.Object.extend({
         case "simplePush":
             platform = "simplePush";
             break;
+        case "safari":
+            platform = "safari";
+            break;
         default:
             platform = "N/A";
             break;
